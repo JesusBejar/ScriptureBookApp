@@ -1,10 +1,15 @@
 package com.scripturebookapp.ScriptureBookApp;
 
+import com.scripturebookapp.run.Run;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+
+import jakarta.annotation.security.RunAs;
 
 @SpringBootApplication
 public class ScriptureBookAppApplication {
@@ -13,9 +18,20 @@ public class ScriptureBookAppApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ScriptureBookAppApplication.class, args);
 
-		log.info("app started successfully");
-		log.info("something changed");
+	}
 
+	@Bean
+	CommandLineRunner runner() {
+		return args -> {
+			Run runOne = new Run(
+				1,
+				"Fighting Run",
+				java.time.LocalDateTime.now(),
+				java.time.LocalDateTime.now().plusMinutes(30),
+				3
+			);
+			log.info("Run One : {}", runOne);
+		};
 	}
 
 }
