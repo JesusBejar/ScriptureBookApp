@@ -1,4 +1,4 @@
-package yoMomma;
+package com.scripturebookapp.ScriptureBookApp;
 
 public class WelcomeMsg {
 
