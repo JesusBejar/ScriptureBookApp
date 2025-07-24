@@ -14,6 +14,13 @@ public class RunRepo {
     public List<Run> findAll() {
         return runs;
     }
+    // get run by id
+    Run findById(Integer id) {
+        return runs.stream()
+            .filter(run -> run.id().equals(id))
+            .findFirst()
+            .get();
+    }
 
     @PostConstruct
     private void init() {
