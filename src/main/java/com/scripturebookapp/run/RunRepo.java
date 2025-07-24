@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
-
+import java.util.Optional;
 import jakarta.annotation.PostConstruct;
 
 @Repository
@@ -15,11 +15,10 @@ public class RunRepo {
         return runs;
     }
     // get run by id
-    Run findById(Integer id) {
+    Optional<Run> findById(Integer id) {
         return runs.stream()
             .filter(run -> run.id().equals(id))
-            .findFirst()
-            .get();
+            .findFirst();
     }
 
     @PostConstruct
