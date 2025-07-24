@@ -6,12 +6,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
-
-import jakarta.annotation.security.RunAs;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+@ComponentScan(basePackages = {"com.scripturebookapp"})
 public class ScriptureBookAppApplication {
 	private static final Logger log = LoggerFactory.getLogger(ScriptureBookAppApplication.class);
 
