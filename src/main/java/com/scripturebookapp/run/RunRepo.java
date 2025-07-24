@@ -1,41 +1,73 @@
 package com.scripturebookapp.run;
-import java.util.ArrayList;
+
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
-import java.util.Optional;
-import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
-@Repository
+@RestController
+// define the base path
+@RequestMapping("/api") 
 public class RunRepo {
-    private List<Run> runs = new ArrayList<>();
 
-    // get all runs
-    public List<Run> findAll() {
-        return runs;
+    private static final Logger log = LoggerFactory.getLogger(RunController.class);
+    private final RunRepo runRepo;
+
+    // constructor
+    public RunRepo(RunRepo runRepo) {
+        this.runRepo = runRepo;
+        log.info("RunController initialized");
     }
-    // get run by id
-    Optional<Run> findById(Integer id) {
-        return runs.stream()
-            .filter(run -> run.id().equals(id))
-            .findFirst();
+    // endpoint to return array of runs
+    // findAll()
+    @GetMapping("/runs")
+    List<Run> findAll() {
+        log.info("GET /api/runs endpoint called");
+        return runRepo.findAll();
+    }
+    // endpoint to return specific run
+    // findById(int id)
+    @GetMapping("/runs/{id}")
+    // PathVariable makes int dynamic
+    Run findById(@PathVariable Integer id) {
+        Run run = runRepo.findById(id);
+        if (run == null) {
+            log.warn("Run with id {} not found", id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Run not found");
+        } else {
+            return run;
+        }
+    // endpoint to make run
+    // create(Run run)
+    void create(Run run) {
+        runs.add(run);
     }
 
-    @PostConstruct
-    private void init() {
-        runs.add(new Run(
-            1,
-            "Morning Run",
-            java.time.LocalDateTime.now().minusDays(1),
-            java.time.LocalDateTime.now().minusDays(1).plusMinutes(45),
-            5
-        ));
-        runs.add(new Run(
-            2,
-            "Evening Run",
-            java.time.LocalDateTime.now().minusDays(2),
-            java.time.LocalDateTime.now().minusDays(2).plusMinutes(60),
-            4
-        ));
+    // endpoint to update run
+    // update(Run run, int id)
+    void update(Run run, @PathVariable Integer id) {
+        Run existingRun = runRepo.findById(id);
+        // if check
+        if (existingRun == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        runs.set(runs.indexOf(existingRun.get()), run);
+    }
+
+    // endpoint to delete run
+    // delete(int id)
+    void delete(@PathVariable Integer id) {
+        Run run = runRepo.findById(id);
+        // if check
+        if (run == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        runs.remove(run);
     }
 }
