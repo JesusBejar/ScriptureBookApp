@@ -1,6 +1,7 @@
 package com.scripturebookapp.run;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +16,8 @@ import org.springframework.web.server.ResponseStatusException;
 // define the base path
 @RequestMapping("/api") 
 public class RunRepo {
-
-    private static final Logger log = LoggerFactory.getLogger(RunController.class);
+    private static final Logger log = LoggerFactory.getLogger(RunRepo.class);
+    private final List<Run> runs = new ArrayList<>();
     private final RunRepo runRepo;
 
     // constructor
@@ -40,9 +41,9 @@ public class RunRepo {
         if (run == null) {
             log.warn("Run with id {} not found", id);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Run not found");
-        } else {
-            return run;
-        }
+        } 
+        return run;
+    }
     // endpoint to make run
     // create(Run run)
     void create(Run run) {
@@ -57,7 +58,7 @@ public class RunRepo {
         if (existingRun == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        runs.set(runs.indexOf(existingRun.get()), run);
+        runs.set(runs.indexOf(existingRun), run);
     }
 
     // endpoint to delete run
