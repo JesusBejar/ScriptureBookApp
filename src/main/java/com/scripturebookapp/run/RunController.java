@@ -36,7 +36,8 @@ class RunController {
     }
 
     // create
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.CREATED) // 201 code, look for it in postman
+    // annotations are necessary for successful requests
     @PostMapping
     void create(@RequestBody Run run) {
         // method from RunRepo
@@ -46,6 +47,8 @@ class RunController {
     // update
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
+    // request body annotation connects the request body to path
+    // path variable annotation connects dynamic id to path
     void update(@RequestBody Run run, @PathVariable Integer id) {
         // method from RunRepo
         runRepo.update(run,id);

@@ -15,6 +15,7 @@ import jakarta.annotation.PostConstruct;
 public class RunRepo {
     private final List<Run> runs = new ArrayList<>();
 
+    // run data in-house
     @PostConstruct
     private void init() {
         runs.add(new Run(
@@ -58,6 +59,7 @@ public class RunRepo {
     // endpoint to update run
     // update(Run run, int id)
     void update(Run run, @PathVariable Integer id) {
+        // optional annotation is a mini if-check
         Optional<Run> existingRun = findById(id);
         if (existingRun.isPresent()) {
             runs.set(runs.indexOf(existingRun.get()), run);
@@ -69,9 +71,9 @@ public class RunRepo {
     void delete(@PathVariable Integer id) {
         Optional<Run> run = findById(id);
         // if check
-        if (run.isPresent()) {
+        if (run.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        runs.remove(run);
+        runs.removeIf(r -> r.id().equals(id));
     }
 }
