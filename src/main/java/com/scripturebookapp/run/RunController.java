@@ -17,11 +17,13 @@ class RunController {
         this.runRepo = runRepo;
     }
 
+    // find all
     @GetMapping
     List<Run> findAll() {
         return runRepo.findAll();
     }
 
+    // find by id
     @GetMapping("/{id}")
     Run findById(@PathVariable Integer id) {
         Optional<Run> run = runRepo.findById(id);
@@ -31,18 +33,21 @@ class RunController {
         return run.get();
     }
 
+    // create
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     void create(@RequestBody Run run) {
         runRepo.create(run);
     }
 
+    // update
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
     void update(@RequestBody Run run, @PathVariable Integer id) {
         runRepo.update(run,id);
     }
 
+    // delete
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     void delete(@PathVariable Integer id) {

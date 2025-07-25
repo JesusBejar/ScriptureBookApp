@@ -3,46 +3,32 @@ package com.scripturebookapp.run;
 import java.util.List;
 import java.util.ArrayList;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import java.util.Optional;
 
-@RestController
-// define the base path
-@RequestMapping("/api") 
+@Repository
 public class RunRepo {
-    private static final Logger log = LoggerFactory.getLogger(RunRepo.class);
     private final List<Run> runs = new ArrayList<>();
-    private final RunRepo runRepo;
 
-    // constructor
-    public RunRepo(RunRepo runRepo) {
-        this.runRepo = runRepo;
-        log.info("RunController initialized");
-    }
     // endpoint to return array of runs
     // findAll()
     @GetMapping("/runs")
     List<Run> findAll() {
-        log.info("GET /api/runs endpoint called");
-        return runRepo.findAll();
+        return runs;
     }
     // endpoint to return specific run
     // findById(int id)
     @GetMapping("/runs/{id}")
     // PathVariable makes int dynamic
-    Run findById(@PathVariable Integer id) {
-        Run run = runRepo.findById(id);
-        if (run == null) {
-            log.warn("Run with id {} not found", id);
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Run not found");
-        } 
-        return run;
+    Optional<Run> findById(@PathVariable Integer id) {
+        return runs.stream()
+        .filter(r -> r.id()
+        .equals(id))
+        .findFirst();
     }
     // endpoint to make run
     // create(Run run)
@@ -53,20 +39,18 @@ public class RunRepo {
     // endpoint to update run
     // update(Run run, int id)
     void update(Run run, @PathVariable Integer id) {
-        Run existingRun = runRepo.findById(id);
-        // if check
-        if (existingRun == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        Optional<Run> existingRun = findById(id);
+        if (existingRun.isPresent()) {
+            runs.set(runs.indexOf(existingRun.get()), run);
         }
-        runs.set(runs.indexOf(existingRun), run);
     }
 
     // endpoint to delete run
     // delete(int id)
     void delete(@PathVariable Integer id) {
-        Run run = runRepo.findById(id);
+        Optional<Run> run = findById(id);
         // if check
-        if (run == null) {
+        if (run.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         runs.remove(run);
