@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 
+// annotations are king
 public record Run (
     Integer id, 
     @NotEmpty
@@ -15,7 +16,7 @@ public record Run (
 )
 {
     public Run {
-        if(!started.isAfter(ended)) {
+        if(!ended.isAfter(started)) {
             throw new IllegalArgumentException("Ended on must be after started on");
         }
     }

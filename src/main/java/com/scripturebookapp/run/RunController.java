@@ -2,6 +2,7 @@ package com.scripturebookapp.run;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +38,7 @@ class RunController {
     @ResponseStatus(HttpStatus.CREATED) // 201 code, look for it in postman
     // annotations are necessary for successful requests
     @PostMapping
-    void create(@RequestBody Run run) {
+    void create(@Valid @RequestBody Run run) {
         // method from RunRepo
         runRepo.create(run);
     }
@@ -47,7 +48,7 @@ class RunController {
     @PutMapping("/{id}")
     // request body annotation connects the request body to path
     // path variable annotation connects dynamic id to path
-    void update(@RequestBody Run run, @PathVariable Integer id) {
+    void update(@Valid @RequestBody Run run, @PathVariable Integer id) {
         // method from RunRepo
         runRepo.update(run,id);
     }
@@ -55,7 +56,7 @@ class RunController {
     // delete
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    void delete(@PathVariable Integer id) {
+    void delete(@Valid @PathVariable Integer id) {
         // method from RunRepo
         runRepo.delete(id);
     }
