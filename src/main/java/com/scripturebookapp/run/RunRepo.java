@@ -9,10 +9,29 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
+import jakarta.annotation.PostConstruct;
 
 @Repository
 public class RunRepo {
     private final List<Run> runs = new ArrayList<>();
+
+    @PostConstruct
+    private void init() {
+        runs.add(new Run(
+            1,
+            "Morning Run",
+            java.time.LocalDateTime.now().minusDays(1),
+            java.time.LocalDateTime.now().minusDays(1).plusMinutes(45),
+            5
+        ));
+        runs.add(new Run(
+            2,
+            "Evening Run", 
+            java.time.LocalDateTime.now().minusDays(2),
+            java.time.LocalDateTime.now().minusDays(2).plusMinutes(60),
+            4
+        ));
+    }
 
     // endpoint to return array of runs
     // findAll()
