@@ -91,6 +91,52 @@ public class VerseRepo {
             throw new RuntimeException("Unexpected error during file write", error);
         }
     }
+
+    // read verses from json file
+    private void readFromFile() {
+        try {
+            File file = new File(FILE_PATH);
+            
+            // existence if-check
+            if (!file.exists()) {
+                System.out.println("File " + FILE_PATH + " does not exist. Starting with empty verse list.");
+                return;
+            }
+            
+            // empty if-check
+            if (file.length() == 0) {
+                System.out.println("File " + FILE_PATH + " is empty. Starting with empty verse list.");
+                return;
+            }
+            
+            // read
+            String jsonContent = new String(Files.readAllBytes(Paths.get(FILE_PATH)));
+            
+            // parse
+            List<Verse> loadedVerses = objectMapper.readValue(jsonContent, new TypeReference<List<Verse>>() {});
+            
+            // clear
+            verses.clear();
+            // loop through verses within
+            for (int i = 0; i < loadedVerses.size(); i++) {
+                Verse currentVerse = loadedVerses.get(i);
+                // Validate each verse while looping
+                if (currentVerse != null && currentVerse.id() != null) {
+                    verses.add(currentVerse);
+                }
+            }
+            
+            System.out.println("File loaded " + verses.size() + " verses from " + FILE_PATH);
+            
+        } catch (IOException e) {
+            // error handling
+            System.err.println("Error: " + e.getMessage());
+            System.out.println("Starting with empty list");
+        } catch (Exception e) {
+            // more error handling
+            System.err.println("Error: " + e.getMessage());
+            System.out.println("Starting with empty list");
+        }
     }
 
     // endpoint to return array of verses
