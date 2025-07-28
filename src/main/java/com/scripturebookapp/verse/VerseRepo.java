@@ -28,6 +28,8 @@ public class VerseRepo {
     // verse data in-house
     @PostConstruct
     private void init() {
+        // load existing verses from file first
+        readFromFile();
         
         // if no verses, add default verses
         if (verses.isEmpty()) {
@@ -145,6 +147,7 @@ public class VerseRepo {
     List<Verse> findAll() {
         return verses;
     }
+    
     // endpoint to return specific verse
     // findById(int id)
     @GetMapping("/verses/{id}")
@@ -155,10 +158,13 @@ public class VerseRepo {
         .equals(id))
         .findFirst();
     }
+    
     // endpoint to make verse
     // create(Verse verse)
     void create(Verse verse) {
         verses.add(verse);
+        // auto-save
+        writeToFile();
     }
 
     // endpoint to update verse
@@ -168,6 +174,8 @@ public class VerseRepo {
         Optional<Verse> existingVerse = findById(id);
         if (existingVerse.isPresent()) {
             verses.set(verses.indexOf(existingVerse.get()), verse);
+            // auto-save
+            writeToFile();
         }
     }
 
@@ -180,5 +188,7 @@ public class VerseRepo {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         verses.removeIf(v -> v.id().equals(id));
+        // auto-save
+        writeToFile();
     }
 } 
