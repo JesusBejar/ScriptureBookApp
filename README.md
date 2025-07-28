@@ -20,7 +20,7 @@ Springboot framework
 
 - [Java Programming for Beginners - Full course](https://www.youtube.com/watch?v=A74TOX803D0)
 - [Building Web Applications in Java with Spring Boot 3](https://www.youtube.com/watch?v=31KTdfRH6nY&t=1921s)
-- [Java OOP]([(https://www.youtube.com/watch?v=31KTdfRH6nY&t=1921s)](https://www.w3schools.com/java/java_oop.asp)
+- [Java OOP](https://www.w3schools.com/java/java_oop.asp)
 
 
 # Future Work
