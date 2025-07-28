@@ -5,7 +5,7 @@ The app fetches Bible books, chapters, and verses from this API - https://bible-
 It is made using Java and Springboot
 My purpose is to provide users with a simple web app that they can use to read their scriptures online!
 
-[Software Demo Video]([http://url.link.goes.here]https://www.loom.com/share/6dabd67d95bb4dbd90cc67d8973da1c7?sid=3b49eee1-a491-401c-bae7-1dd371e55aa2)
+[Software Demo Video]([https://www.loom.com/share/6dabd67d95bb4dbd90cc67d8973da1c7?sid=3b49eee1-a491-401c-bae7-1dd371e55aa2])
 
 # Development Environment
 
@@ -18,9 +18,9 @@ Springboot framework
 
 {Make a list of websites that you found helpful in this project}
 
-- [Java Programming for Beginners - Full course]([http://url.link.goes.here](https://www.youtube.com/watch?v=A74TOX803D0))
-- [Building Web Applications in Java with Spring Boot 3]([http://url.link.goes.here](https://www.youtube.com/watch?v=31KTdfRH6nY&t=1921s))
-- [Java OOP]([http://url.link.goes.here][(https://www.youtube.com/watch?v=31KTdfRH6nY&t=1921s)](https://www.w3schools.com/java/java_oop.asp))
+- [Java Programming for Beginners - Full course]([https://www.youtube.com/watch?v=A74TOX803D0])
+- [Building Web Applications in Java with Spring Boot 3]([https://www.youtube.com/watch?v=31KTdfRH6nY&t=1921s])
+- [Java OOP]([(https://www.youtube.com/watch?v=31KTdfRH6nY&t=1921s)](https://www.w3schools.com/java/java_oop.asp])
 
 
 # Future Work
