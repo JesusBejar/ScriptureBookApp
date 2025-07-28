@@ -2,6 +2,11 @@ package com.scripturebookapp.verse;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
@@ -11,9 +16,14 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
 import jakarta.annotation.PostConstruct;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
+
 @Repository
 public class VerseRepo {
     private final List<Verse> verses = new ArrayList<>();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final String FILE_PATH = "verses.json";
 
     // verse data in-house
     @PostConstruct
