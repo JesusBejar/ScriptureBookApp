@@ -28,22 +28,69 @@ public class VerseRepo {
     // verse data in-house
     @PostConstruct
     private void init() {
-        verses.add(new Verse(
-            1,
-            "John",
-            3,
-            16,
-            "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.",
-            "NIV"
-        ));
-        verses.add(new Verse(
-            2,
-            "Genesis", 
-            1,
-            1,
-            "In the beginning God created the heavens and the earth.",
-            "NIV"
-        ));
+        
+        // if no verses, add default verses
+        if (verses.isEmpty()) {
+            verses.add(new Verse(
+                1,
+                "John",
+                3,
+                16,
+                "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.",
+                "NIV"
+            ));
+            verses.add(new Verse(
+                2,
+                "Genesis", 
+                1,
+                1,
+                "In the beginning God created the heavens and the earth.",
+                "NIV"
+            ));
+            
+            // Save default verses to file
+            writeToFile();
+        }
+    }
+
+    // write verses to json file
+    private void writeToFile() {
+        try {
+            // create file if it doesn't exist
+            File file = new File(FILE_PATH);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            
+            // loop through verses before writing
+            List<Verse> versesToWrite = new ArrayList<>();
+            for (int i = 0; i < verses.size(); i++) {
+                Verse currentVerse = verses.get(i);
+                // validation while looping
+                if (currentVerse != null && currentVerse.text() != null && !currentVerse.text().trim().isEmpty()) {
+                    versesToWrite.add(currentVerse);
+                }
+            }
+            
+            try (FileWriter fileWriter = new FileWriter(file)) {
+                String jsonString = objectMapper.writeValueAsString(versesToWrite);
+                fileWriter.write(jsonString);
+                fileWriter.flush();
+            }
+            
+            System.out.println("Successfully wrote " + versesToWrite.size() + " verses to " + FILE_PATH);
+            
+            // fancy error handling
+        } catch (IOException error) {
+            // Error handling for file operations
+            System.err.println("Error writing to file: " + error.getMessage());
+            throw new RuntimeException("Failed to write verses to file", error);
+        } catch (Exception error) {
+            // General error handling
+            System.err.println("Unexpected error during file write: " + error.getMessage());
+            throw new RuntimeException("Unexpected error during file write", error);
+        }
+    }
     }
 
     // endpoint to return array of verses
